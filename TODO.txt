@@ -1,0 +1,11 @@
+
+TODO
+
+    One-off error near 100/0%
+    Smooth brightness / gamma (+feather past 1 pixel?)
+        https://hyperion-project.org/threads/arduino-ws2811-and-the-gamma-issue.3464/
+        https://learn.adafruit.com/led-tricks-gamma-correction/the-quick-fix
+    I2C RTC
+    Beeper?
+    LUX brightness control
+

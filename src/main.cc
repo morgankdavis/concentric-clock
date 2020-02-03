@@ -15,7 +15,7 @@
 
 
 using namespace std;
-using namespace cc;
+using namespace concentric_clock;
 
 
 unique_ptr<ConcentricClock> concentricClock;
@@ -102,7 +102,9 @@ void signalHandler(int signum) {
 }
 
 int main(int argc, const char* argv[]) {
-	
+
+	cout << "Hello from Concentric Clock!" << endl;
+
 	auto args = vector<string>();
 	for (int i=0; i<argc; ++i) {
 		args.push_back(argv[i]);
@@ -116,7 +118,7 @@ int main(int argc, const char* argv[]) {
 	signal(SIGSEGV, signalHandler );
 	signal(SIGILL, signalHandler );
 	signal(SIGFPE, signalHandler );
-	
+
 	concentricClock = make_unique<ConcentricClock>();
 	
 	return concentricClock->start(args);

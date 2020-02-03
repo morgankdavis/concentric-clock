@@ -1,5 +1,5 @@
 //
-//  ConcentricClock.h
+//  SensorHub.h
 //  concentric-clock
 //
 //  Created by Morgan Davis on 8/9/19.
@@ -7,29 +7,17 @@
 //
 
 
-#ifndef ConcentricClock_h
-#define ConcentricClock_h
+#ifndef SensorHub_h
+#define SensorHub_h
 
 
-#include <memory>
-#include <string>
-#include <vector>
-
-
-#define DEBUGGING
-
-
-// TODO: add config file
+#include <mutex>
+#include <thread>
 
 
 namespace concentric_clock {
-	
-	
-	class Beeper;
-	class RingsController;
-	class SensorHub;
 
-	class ConcentricClock {
+	class SensorHub {
 		
 	public:
 		
@@ -37,15 +25,19 @@ namespace concentric_clock {
 		     Lifecycle
 		 **************************************************************************************/
 		
-		ConcentricClock();
-		~ConcentricClock();
+		SensorHub();
+		SensorHub(SensorHub&& other) = delete; // move initialization
+		SensorHub(const SensorHub& other) = delete; // copy initialization
+		SensorHub& operator= (SensorHub&& other) = delete; // move assignment
+		SensorHub& operator= (const SensorHub& other) = delete; // copy assignment
+		~SensorHub();
 		
 		/**************************************************************************************
 		     Public
 		 **************************************************************************************/
-		
-		int start(const std::vector<std::string>& args);
-		void stop();
+
+		unsigned ambientLight();
+		void shutdown();
 		
 	private:
 		
@@ -53,17 +45,16 @@ namespace concentric_clock {
 		     Private
 		 **************************************************************************************/
 
-		void update();
-		void shutdown();
-
-		std::shared_ptr<RingsController>	m_ringsController;
-		std::shared_ptr<SensorHub>			m_sensorHub;
-		std::shared_ptr<Beeper>				m_beeper;
-
-		bool								m_stop;
+		void updateLoop();
+		
+		std::mutex			m_mtx;
+		std::thread			m_updateThread;
+		bool				m_stop;
+		
+		unsigned 			m_ambientLight;
 	};
 }
 
 
-#endif /* ConcentricClock_h */
+#endif /* SensorHub_h */
 
